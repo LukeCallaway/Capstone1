@@ -42,13 +42,14 @@ Here are a few examples to get you started with. During the proposal stage, you 
 
 | Task Name                   | Description                                                                                                   | Example                                                           |
 | --------------------------- | ------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
-| Design Database schema      | Determine the models and database schema required for your project.                                           | [Link](https://github.com/hatchways-community/capstone-project-one-10eca85e824b49f9a20075ed6ceeae68/issues/2) |
-| Choosing API                | Determine which API to use. Create an API aswell from personal users data.                                    | [Link](https://github.com/hatchways-community/capstone-project-one-10eca85e824b49f9a20075ed6ceeae68/issues/3) |
-| User Flows                  | Determine user flow(s) - think about what you want a user’s experience to be like as they navigate your site. | [Link](https://github.com/hatchways-community/capstone-project-one-10eca85e824b49f9a20075ed6ceeae68/issues/10) |
-| Set up backend and database | Configure the model classes and set up database.                                                              | [Link](https://github.com/hatchways-community/capstone-project-one-10eca85e824b49f9a20075ed6ceeae68/issues/9) |
-| Set up frontend             | Create all HTML, CSS, and Javascript files necesary. Including any templates / base files.                    | [Link](https://github.com/hatchways-community/capstone-project-one-10eca85e824b49f9a20075ed6ceeae68/issues) Issues 6,7 ,and 8|
-| User Authentication         | Fullstack feature - ability to authenticate (login and sign up) as a user                                     | [Link](https://github.com/hatchways-community/capstone-project-one-10eca85e824b49f9a20075ed6ceeae68/issues/1) |
-| Forums                      | Create the ability for users to interact with each other and discuss various topics                           | [Link](https://github.com/hatchways-community/capstone-project-one-10eca85e824b49f9a20075ed6ceeae68/issues/11)|
+| Design Database schema      | Determine the models and database schema required for your project.                                           | [Link](https://github.com/LukeCallaway/Capstone1/issues/2) |
+| Choosing API                | Determine which API to use. Create an API aswell from personal users data.                                    | [Link](https://github.com/LukeCallaway/Capstone1/issues/3) |
+| User Flows                  | Determine user flow(s) - think about what you want a user’s experience to be like as they navigate your site. | [Link](https://github.com/LukeCallaway/Capstone1/issues/10) |
+| Set up backend and database | Configure the model classes and set up database.                                                              | [Link](https://github.com/LukeCallaway/Capstone1/issues/9) |
+| Set up frontend             | Create all HTML, CSS, and Javascript files necesary. Including any templates / base files.                    | [Link](https://github.com/LukeCallaway/Capstone1/issues) Issues 6,7 ,and 8|
+| User Authentication         | Fullstack feature - ability to authenticate (login and sign up) as a user                                     | [Link](https://github.com/LukeCallaway/Capstone1/issues/1) |
+| Forums                      | Create the ability for users to interact with each other and discuss various topics                           | [Link](https://github.com/LukeCallaway/Capstone1/issues/11)|
+| WTForms                     | Make all the necassery form classes need for the whole website                                                | [Link](https://github.com/LukeCallaway/Capstone1/issues/4) |
 
 ## Labeling
 
