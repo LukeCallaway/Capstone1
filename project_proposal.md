@@ -19,6 +19,20 @@ When planning your project, break down your project into smaller tasks, knowing 
 - Determining the database schema
 - Sourcing your data
 - Determining user flow(s)
+  - Browse the home page
+    - Get info on popular or new movie releases
+    - find other people's created list for potential movies to watch
+  - After logging in
+    - Have the home page more curated to their taste
+    - Create or edit a list of movies to share with others
+      - All found on the users personal page
+      - Removing a movie off of their watch later list after watching it
+      - Adding a movie they really like to their favorites list
+      - Seeing lists of people they follow
+    - Browse the movie lists others have made 
+      - Found on other people's pages can view by serch bar
+      - Have a search for certain types of lists?
+      - like the lists so they can see it at a later date
 - Setting up the backend and database
 - Setting up the frontend
 - What functionality will your app include?
