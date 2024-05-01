@@ -74,3 +74,9 @@ Labeling is a great way to separate out your tasks and to track progress. Hereâ€
 | Difficulty    | Estimating the difficulty level will be helpful to determine if the project is unique and ready to be showcased as part of your portfolio - having a mix of task difficultlies will be essential.                                                                                                                               | Easy, Medium, Hard           |
 | Type          | If a frontend/backend task is large at scale (for example: more than 100 additional lines or changes), it might be a good idea to separate these tasks out into their own individual task. If a feature is smaller at scale (not more than 10 files changed), labeling it as fullstack would be suitable to review all at once. | Frontend, Backend, Fullstack |
 | Stretch Goals | You can also label certain tasks as stretch goals - as a nice to have, but not mandatory for completing this project.                                                                                                                                                                                                           | Must Have, Stretch Goal      |
+
+search with grouping of multiple movies
+serach by other users that have certain movies or multiple movies on their own personal lists
+
+finding the movie trailer is easy if the api already has the yt link on it 
+  otherwise it could be more involved by also using the yt api
