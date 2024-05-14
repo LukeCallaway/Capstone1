@@ -1,1 +1,5 @@
 venv/
+my_secrets.py
+sql_helpers/
+sql_helpers/capstone_schema.sql
+__pycache__/
