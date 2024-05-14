@@ -8,6 +8,7 @@
     - email
     - username
     - password
+    - email
 
 - Follows
     - followed_by_user_id
@@ -23,3 +24,5 @@
     - user_id
     - movie name
     - personal movie rating
+
+potential to add another table with basic movie like title name, id, and picture
