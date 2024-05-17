@@ -23,3 +23,21 @@ class EditUserForm(FlaskForm):
     password = PasswordField('Password', validators = [Length(min=6)])
     first_name = StringField('First Name')
     last_name = StringField('Last Name')
+
+class SearchMovie(FlaskForm):
+    """search credenitals for api request"""
+
+    # all optional but 1 required?
+    movie_name = StringField('Movie Name')
+    year = StringField('Year of Release')
+    actor = StringField('Actor Name')
+
+class SearchMovieByName(FlaskForm):
+    """search api by movie title or actor name"""
+
+    name = StringField('Movie Title Or Actor Name')
+
+# class SearchMovieByActor(FlaskForm):
+#     """search api by actors"""
+
+#     actor_name = StringField('Actor Name')
