@@ -1,7 +1,16 @@
-/* body{
+/* *{
+    width: 95%;
+} */
+
+body{
     min-height: 100%;
     min-width: 100%;
-} */
+    /* background-color: rgb(53, 58, 61); */
+}
+
+#full-page{
+    width: 95%;
+}
 
 nav{
     background-color: rgb(53, 58, 61);
@@ -12,22 +21,49 @@ a{
     text-decoration: none;
     color: rgb(100, 148, 237);
     font-size: 24px;
+}
 
+#register-form{
+    max-width: 95%;
+}
+
+#form-logo-name{
+    text-align: center;
+}
+
+#form-description{
+    text-align: center;
+}
+
+#user-form > input{
+    margin-bottom: 20px;
+    /* background-color: rgb(53, 58, 61); */
+}
+/* 
+#user-form input::placeholder{
+    color: white;
+} */
+
+#form-button{
+    position: relative;
+    left: 25%;
+    width: 50%;
 }
 
 #upper-right-nav-bar > li {
-    padding-top: 30px;
+    /* padding-top: 5px; */
     padding-right: 30px;
     font-size: 24px;
 }
+
 footer{
     background-color: rgb(53, 58, 61);
     height: 40px;
-    position: absolute;
+    position: relative;
     margin-bottom: 0px;
     bottom: 0px;
     left: 0px;
-    min-width: 100vw;
+    min-width: 95vw;
     color: white;
 }
 
@@ -51,3 +87,36 @@ footer > p {
 input #search{
     margin-top: 10px;
 }
+
+#movie-search-div{
+    max-width: 50%;
+}
+#movie-result-div{
+    width: 95%;
+    /* align-items: center; */
+    position: relative;
+    /* left: 50%; */
+}
+
+/* #movie-search-div{
+
+}
+
+#movie-form{
+
+}
+
+#movie-form-button{
+
+} */
+
+#movie-result-div > p{
+    position: absolute;
+    display: block;
+    /* left: 200px;
+    top: 200px; */
+}
+
+/* .movie-titles{
+    padding-left: 25px;
+} */
