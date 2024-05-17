@@ -6,7 +6,69 @@ bcrypt = Bcrypt()
 
 db = SQLAlchemy()
 
+class Follows(db.Model):
+    """User to user connections"""
 
+    __tablename__ = 'follows'
+
+    user_being_followed_id = db.Column(
+        db.Integer,
+        db.ForeignKey('users.id', ondelete="cascade"),
+        primary_key=True,
+    )
+
+    user_following_id = db.Column(
+        db.Integer,
+        db.ForeignKey('users.id', ondelete="cascade"),
+        primary_key=True,
+    )
+
+class Watch_Later(db.Model):
+    """Movies saved to list"""
+
+    __tablename__ = 'watch_later'
+
+    user_id = db.Column(
+        db.Integer,
+        db.ForeignKey('users.id', ondelete = 'cascade'),
+        primary_key = True
+    )
+
+    movie_id = db.Column(
+        db.Integer,
+        nullable = False
+    )
+
+    movie_name = db.Column(
+        db.Text,
+        nullable = False
+    )
+
+class Favorites(db.Model):
+    """A users favorite movies"""
+
+    __tablename__ = 'favorites'
+
+    user_id = db.Column(
+        db.Integer,
+        db.ForeignKey('users.id', ondelete = 'cascade'),
+        primary_key = True
+    )
+
+    movie_id = db.Column(
+        db.Integer,
+        nullable = False
+    )
+
+    movie_name = db.Column(
+        db.Text,
+        nullable = False
+    )
+
+    movie_rating = db.Column(
+        db.Integer,
+        nullable = False
+    )
 
 class User(db.Model):
     """Table and methods for user"""
@@ -74,69 +136,21 @@ class User(db.Model):
                 return user
         return False
 
-class Follows(db.Model):
-    """User to user connections"""
-
-    __tablename__ = 'follows'
-
-    user_being_followed_id = db.Column(
-        db.Integer,
-        db.ForeignKey('users.id', ondelete="cascade"),
-        primary_key=True,
+    followers = db.relationship(
+        "User",
+        secondary="follows",
+        primaryjoin=(Follows.user_being_followed_id == id),
+        secondaryjoin=(Follows.user_following_id == id)
     )
 
-    user_following_id = db.Column(
-        db.Integer,
-        db.ForeignKey('users.id', ondelete="cascade"),
-        primary_key=True,
+    following = db.relationship(
+        "User",
+        secondary="follows",
+        primaryjoin=(Follows.user_following_id == id),
+        secondaryjoin=(Follows.user_being_followed_id == id)
     )
 
-class Watch_Later(db.Model):
-    """Movies saved to list"""
 
-    __tablename__ = 'watch_later'
-
-    user_id = db.Column(
-        db.Integer,
-        db.ForeignKey('users.id', ondelete = 'cascade'),
-        primary_key = True
-    )
-
-    movie_id = db.Column(
-        db.Integer,
-        nullable = False
-    )
-
-    movie_name = db.Column(
-        db.Text,
-        nullable = False
-    )
-
-class Favorites(db.Model):
-    """A users favorite movies"""
-
-    __tablename__ = 'favorites'
-
-    user_id = db.Column(
-        db.Integer,
-        db.ForeignKey('users.id', ondelete = 'cascade'),
-        primary_key = True
-    )
-
-    movie_id = db.Column(
-        db.Integer,
-        nullable = False
-    )
-
-    movie_name = db.Column(
-        db.Text,
-        nullable = False
-    )
-
-    movie_rating = db.Column(
-        db.Integer,
-        nullable = False
-    )
 
 def connect_db(app):
     """Connect this database to flask app"""
