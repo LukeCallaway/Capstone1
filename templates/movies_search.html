@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %} {{g.user.username}}'s Page {% endblock %}
+{% block content %}
+
+<h1>Search For A Movie</h1>
+<div id="movie-search-div">
+    <form method="POST" id="movie-form">
+        {{ form.hidden_tag() }}
+
+        {% for field in form if field.widget.input_type != 'hidden' %}
+        {% for error in field.errors %}
+            <span class="text-danger">{{ error }}</span>
+        {% endfor %}
+        {{ field(placeholder=field.label.text, class="form-control") }}
+        {% endfor %}
+
+        <button class="btn btn-primary btn-block btn-lg" id="movie-form-button">Search</button>
+    </form>
+</div>
+  {% endblock %}

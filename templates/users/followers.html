@@ -1,0 +1,7 @@
+{% extends 'users/base_users.html' %}
+{% block title %} {{g.user.username}}'s Page {% endblock %}
+{% block user_details %}
+
+<h1>{{g.user.username}}'s followers</h1>
+
+{% endblock %}

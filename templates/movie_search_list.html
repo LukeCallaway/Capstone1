@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %} {{g.user.username}}'s Page {% endblock %}
+{% block content %}
+
+<h1>Results After Searching For A Movie</h1>
+
+{% for r in res %}
+<div class="card movie-titles" style="width: 18rem;">
+    <a href="/movies_search/{{r['id']}}">
+        <img class="card-img-top" src="{{ r['image_url'] }}" alt="Movie Poster">
+    </a>
+    <div class="card-body">
+        <h5 class="card-title">{{ r['name'] }}</h5>
+        <p class="card-text">{{ r['type'] }} {{ r['id'] }}</p>
+        <a href="#" class="btn btn-primary">Go somewhere</a>
+    </div>
+</div>
+{% endfor %}
+
+
+{% endblock %}

@@ -20,30 +20,35 @@
           </div>
           <ul class="nav navbar-nav navbar-right" id="upper-right-nav-bar">
             {% if request.endpoint != None %}
-            <li>
+            <!-- <li>
               <form class="navbar-form navbar-right" action="/users" >
-                <input name="q" class="form-control" placeholder="Search Capstone" id="search">
+                <input name="q" class="form-control" placeholder="Search For Movie" id="search">
                 <button class="btn btn-default">
                   <span class="fa fa-search"></span>
                 </button>
               </form>
-            </li>
+            </li> -->
+            <li><a href="/movies_search">Search For Movies</a></li>
             {% endif %}
             {% if not g.user %}
             <li><a href="/register">Sign up</a></li>
             <li><a href="/login">Log in</a></li>
             {% else %}
             <li>
-              <a href="/users/{{ g.user.id }}">
-                <img src="{{ g.user.image_url }}" alt="{{ g.user.username }}">
+              <a href="/users/{{ g.user.id }}">{{ g.user.username }}
               </a>
             </li>
-            <li><a href="/messages/new">New Message</a></li>
             <li><a href="/logout">Log out</a></li>
             {% endif %}
           </ul>
         </div>
     </nav>
+
+    <div class="container">
+      {% for category, message in get_flashed_messages(with_categories=True) %}
+      <div class="alert alert-{{ category }}">{{ message }}</div>
+      {% endfor %}    
+    </div>
 
     {% block content %}
     {% endblock %}

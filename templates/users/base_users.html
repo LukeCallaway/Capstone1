@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<!-- <div class="row full-width" id="full-page">
+  <div class="container">
+    <div class="row justify-content-end"> -->
+      <div class="col-9">
+        <ul class="user-stats nav nav-pills">
+          <li class="stat">
+            <p class="small" id="following">Following</p>
+            <h4>
+              <a href="/users/{{ user.id }}/following">{{ user.following | length }}</a>
+            </h4>
+          </li>
+          <li class="stat" id="followers">
+            <p class="small">Followers</p>
+            <h4>
+              <a href="/users/{{ user.id }}/followers">{{ user.followers | length }}</a>
+            </h4>
+          </li>
+          <div class="ml-auto">
+            {% if g.user.id == user.id %}
+            <form method="POST" action="/users/{{ user.id }}/edit">
+                <button class="btn btn-outline-secondary ml-2" id="edit-button">Edit Profile</button>
+            </form>
+            <form method="POST" action="/users/delete" class="form-inline" id="delete-button">
+              <button class="btn btn-outline-danger ml-2">Delete Profile</button>
+            </form>
+            {% elif g.user %}
+            {% if g.user.is_following(user) %}
+            <form method="POST" action="/users/stop-following/{{ user.id }}">
+              <button class="btn btn-primary">Unfollow</button>
+            </form>
+            {% else %}
+            <form method="POST" action="/users/follow/{{ user.id }}">
+              <button class="btn btn-outline-primary">Follow</button>
+            </form>
+            {% endif %}
+            {% endif %}
+          </div>
+        </ul>
+      </div>
+    <!-- </div>
+  </div>
+</div> -->
+<div>
+  <h2>saved lists</h2>
+  <a href="users/{{user.id}}/favorites">Favorites</a>
+  <br>
+  <a href="users/{{user.id}}/watch-later">Watch Later</a>
+</div>
+  {% block user_details %}
+  {% endblock %}
+
+
+{% endblock %}

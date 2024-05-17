@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %} User Page {% endblock %}
+{% block content %}
+
+<div id="register-form" class="row justify-content-md-center">
+    <div class="col-md-7 col-lg-5">
+      <h2 class="join-message" id="form-logo-name">Capstone Name</h2>
+        <p id="form-description">For movie lovers one and all</p>
+      <form method="POST" id="user-form">
+        {{ form.hidden_tag() }}
+
+        {% for field in form if field.widget.input_type != 'hidden' %}
+          {% for error in field.errors %}
+            <span class="text-danger">{{ error }}</span>
+          {% endfor %}
+          {{ field(placeholder=field.label.text, class="form-control") }}
+        {% endfor %}
+
+        <button class="btn btn-primary btn-block btn-lg" id="form-button">Register!</button>
+      </form>
+    </div>
+  </div>
+
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %} {{g.user.username}}'s Page {% endblock %}
+{% block content %}
+
+<h1>Result For A Single Movie</h1>
+
+<p>{{ movie['id'] }} {{ movie['title'] }}</p>
+
+<img src="{{ movie['backdrop'] }}" alt="movie backdrop">
+
+
+{% endblock %}
