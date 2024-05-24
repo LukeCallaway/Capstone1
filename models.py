@@ -28,10 +28,14 @@ class Watch_Later(db.Model):
 
     __tablename__ = 'watch_later'
 
+    id = db.Column(
+        db.Integer,
+        primary_key = True
+    )
+
     user_id = db.Column(
         db.Integer,
-        db.ForeignKey('users.id', ondelete = 'cascade'),
-        primary_key = True
+        db.ForeignKey('users.id', ondelete = 'cascade')
     )
 
     movie_id = db.Column(
@@ -49,10 +53,14 @@ class Favorites(db.Model):
 
     __tablename__ = 'favorites'
 
+    id = db.Column(
+        db.Integer,
+        primary_key = True
+    )
+
     user_id = db.Column(
         db.Integer,
-        db.ForeignKey('users.id', ondelete = 'cascade'),
-        primary_key = True
+        db.ForeignKey('users.id', ondelete = 'cascade')
     )
 
     movie_id = db.Column(
@@ -150,7 +158,11 @@ class User(db.Model):
         secondaryjoin=(Follows.user_being_followed_id == id)
     )
 
-
+    # favorites = db.relationship(
+    #     'User',
+    #     secondary='favorites',
+    #     primaryjoin=(Favorites.user_id == user.id)
+    # )
 
 def connect_db(app):
     """Connect this database to flask app"""
