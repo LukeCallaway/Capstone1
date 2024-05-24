@@ -45,11 +45,16 @@
     <!-- </div>
   </div>
 </div> -->
-<div>
-  <h2>saved lists</h2>
-  <a href="users/{{user.id}}/favorites">Favorites</a>
-  <br>
-  <a href="users/{{user.id}}/watch-later">Watch Later</a>
+
+<div id="user-lists">
+  <h2>View Your Saved Lists</h2>
+  <div id="user-favorites">
+    <a href="/users/{{user.id}}/favorites">Favorites</a>
+  </div>
+
+  <div id="user-watch-later">
+    <a href="/users/{{user.id}}/watch_later">Watch Later</a>
+  </div>
 </div>
   {% block user_details %}
   {% endblock %}
