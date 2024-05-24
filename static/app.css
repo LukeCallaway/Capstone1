@@ -23,6 +23,10 @@ a{
     font-size: 24px;
 }
 
+a:hover{
+    text-decoration: none;
+}
+
 #register-form{
     max-width: 95%;
 }
@@ -90,6 +94,7 @@ input #search{
 
 #movie-search-div{
     max-width: 50%;
+    display: block;
 }
 #movie-result-div{
     width: 95%;
@@ -117,6 +122,103 @@ input #search{
     top: 200px; */
 }
 
+#no-movie-res{
+    font-size: 24px;
+}
+
 /* .movie-titles{
     padding-left: 25px;
 } */
+.search-buttons{
+    margin: 0;
+    padding: 0;
+    display: inline;
+    border: none;
+}
+
+#movie-title{
+    display: inline-block;
+}
+
+#movie-backdrop{
+    width: 500px;
+    padding-left: 10px;
+    padding-top: 10px;
+}
+
+.add-to-movie-list{
+    position: absolute;
+    padding-top: 10px;
+    margin-left: 10px;
+}
+
+
+.movie-desc{
+    font-size: 22px;
+}
+
+.movie-descriptor,
+.movie-desc{
+    display: inline;
+}
+
+#main-movie-info{
+    position: absolute;
+    margin-left: 520px;
+    margin-top: -170px;
+}
+
+#movie-title{
+    position: absolute;
+    margin-top: 50px;
+    margin-left: 10px;
+}
+
+#favorites-h1,
+#watch-later-h1{
+    /* position: absolute; */
+    display: block;
+    text-align: center;
+}
+
+/* #carouselExampleIndicators{
+    min-width: 300px;
+    min-height: 300px;
+    max-width: 300px;
+    max-height: 300px;
+    padding-left: 50px;
+} */
+
+#add-to-favorites-form{
+    position: absolute;
+    display: inline;
+    margin-left: 180px;
+}
+
+#add-to-favorites-button{
+    position: absolute;
+    margin-left: 215px;
+    margin-top: -38px;
+}
+
+#genres{
+    margin-left: 10px;
+    min-height: 135px;
+}
+
+#critic-score{
+    position: absolute;
+    margin-left: 130px;
+    margin-top: -133px;
+}
+
+#critic-score-number{
+    text-align: center;
+    font-size: 36px;
+}
+
+#overview{
+    position: absolute;
+    margin-left: 320px;
+    margin-top: -133px;
+}
