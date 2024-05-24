@@ -3,10 +3,10 @@ import os
 from flask import Flask, render_template, request, flash, redirect, session, g
 from sqlalchemy.exc import IntegrityError
 
-from forms import RegisterForm, LoginForm, EditUserForm, SearchMovieByName
+from forms import RegisterForm, LoginForm, EditUserForm, SearchMovieByName, AddToFav
 from models import db, connect_db, User, Follows, Watch_Later, Favorites
 from my_secrets import MY_API_KEY, DB_URI, SECRET_KEY
-from api_call_functions import get_basic_info, get_all_info
+from api_call_functions import get_basic_info, get_all_info, is_on_list
 
 import requests
 
@@ -109,6 +109,8 @@ def logout():
 
     return redirect('/')
 
+#*************************************************************\ user routes
+
 @app.route('/users/<int:user_id>')
 def user_profile(user_id):
     """Show user profile"""
@@ -167,7 +169,31 @@ def users_followers(user_id):
     user = User.query.get_or_404(user_id)
     return render_template('users/followers.html', user=user)   
 
-@app.route('/movies_search', methods=['GET', 'POST'])
+@app.route('/users/<int:user_id>/favorites')
+def user_favorites(user_id):
+
+    user = User.query.get_or_404(user_id)
+    favorites = (Favorites.query.filter(Favorites.user_id == user_id)
+                                .order_by(Favorites.movie_rating.desc())
+                                .all())
+    list_length = (favorites)                                
+
+    return render_template('users/favorites.html', user = user, favorites = favorites, list_length = list_length)
+
+@app.route('/users/<int:user_id>/watch_later')
+def user_watch_later(user_id):
+
+    user = User.query.get_or_404(user_id)
+    watch_later = (Watch_Later.query.filter(Watch_Later.user_id == user_id)
+                                .order_by(Watch_Later.movie_name)
+                                .all())
+    list_length = len(watch_later)
+
+    return render_template('users/watch-later.html', user = user, watch_later = watch_later, list_length = list_length)
+
+#****************************************************************************\ movie routes    
+
+@app.route('/movies', methods=['GET', 'POST'])
 def search_movies():
     """Search for a movie by actor or title"""
 
@@ -179,27 +205,67 @@ def search_movies():
 
     if form.validate_on_submit():
         name = form.name.data
-        res = get_basic_info(name, 'autocomplete-search/')
-        # res_list = [r['name'] for r in res['results']]
-        return render_template('movie_search_list.html', res = res['results'])
+        res = get_basic_info(name)
+        list_length = len(res['results'])
+
+        return render_template('movie_search_list.html', res = res['results'], list_length = list_length)
 
     return render_template('movies_search.html', form = form)
 
-@app.route('/movies_search/<int:id>')
+@app.route('/movies/<int:id>', methods=['GET','POST'])
 def movie_info(id):
     """Get all info for a single movie based on passed in id"""
+    movie = get_all_info(id)
+    form = AddToFav()
+
+    if form.validate_on_submit():
+        movie_rating = form.movie_rating.data
+
+        if movie_rating < 0 or movie_rating > 100:
+            flash('movie rating must be between 0 and 100!', 'danger')
+            return redirect(f'/movies/{id}')
+
+        # queries favorites to check if movie is already in there
+        if(is_on_list(g.user.id, movie['id'], Favorites)):
+            flash('Movie already in favorites', 'danger')
+            return redirect(f'/movies/{id}')
+
+        new_fav = Favorites(user_id = g.user.id, movie_id = id, movie_name = movie['title'], movie_rating = movie_rating)
+
+        db.session.add(new_fav)
+        db.session.commit()
+
+        flash('Added to Favorites List!', 'success')
+
+        return redirect(f'/movies/{id}')
+
+    # limit to 1 for now 
+    # similar_titles = get_all_info(movie['similar_titles'][6])
+    # for title in similar_titles:
+    #   print(title['title'], title['poster'])
+
+    return render_template('single_movie_info.html', movie = movie, form = form) #, similar_titles = similar_titles)
+
+
+
+@app.route('/movies/<int:id>/watch-later', methods=['POST'])
+def add_to_watch_later(id):
 
     movie = get_all_info(id)
 
-    return render_template('single_movie_info.html', movie = movie)
+    # queries watch_later to check if movie is already there
+    if(is_on_list(g.user.id, movie['id'], Watch_Later)):
+        flash('Movie already in watch later', 'danger')
+        return redirect(f'/movies/{id}')
+    
+    new_watch_later = Watch_Later(user_id = g.user.id, movie_id = id, movie_name = movie['title'])
+    
+    db.session.add(new_watch_later)
+    db.session.commit()
 
+    flash('Added to Watch Later List!', 'success')
 
-
-
-
-
-
-
+    return redirect(f'/movies/{id}')
 
 
 
