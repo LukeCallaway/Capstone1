@@ -1,12 +1,73 @@
 {% extends 'base.html' %}
-{% block title %} {{g.user.username}}'s Page {% endblock %}
+{% block title %} {{movie['title']}}'s Page {% endblock %}
 {% block content %}
+<img id="movie-backdrop" src="{{ movie['backdrop'] }}" alt="movie backdrop">
 
-<h1>Result For A Single Movie</h1>
+<form  method="POST" action="/movies/{{ movie['id'] }}/watch-later" class="search-buttons add-to-movie-list" id="watch-later">
+    <button class="btn btn-primary">Add to Watch Later</button>
+</form>
 
-<p>{{ movie['id'] }} {{ movie['title'] }}</p>
+<form method="POST" id="add-to-favorites-form" id="favorites" class="search-buttons add-to-movie-list" >
+    {{ form.hidden_tag() }}
 
-<img src="{{ movie['backdrop'] }}" alt="movie backdrop">
+    {% for field in form if field.widget.input_type != 'hidden' %}
+    {% for error in field.errors %}
+        <span class="text-danger">{{ error }}</span>
+    {% endfor %}
+    {{ field(placeholder=field.label.text, class="form-control") }}
+    {% endfor %}
 
+    <button id="add-to-favorites-button" class="btn btn-primary">Add to Favorites</button>
+</form>
 
+<h1 id="movie-title">{{ movie['title'] }}</h1>
+
+<div id="main-movie-info">
+    <p class="movie-desc">Runtime: </p>
+    <p class="movie-descriptor">{{ movie['runtime_minutes'] }} minutes</p>
+    <br>
+    <p class="movie-desc">Release Date: </p>
+    <p class="movie-descriptor">{{ movie['release_date'] }}</p>
+    <br>
+    <p class="movie-desc">Movie Rating: </p>
+    <p class="movie-descriptor">{{ movie['us_rating'] }}</p>
+</div>
+
+<div id="genres">
+    <h2>Genres</h2>
+    <ul>
+    {% for genre in movie['genre_names'] %}
+        <li class="genre">{{ genre }}</li>
+    {% endfor %}
+    </ul>
+</div>
+<div id="critic-score">
+    <h2>Critic Score</h2>
+    <p id="critic-score-number">{{movie['critic_score']}}</p>
+</div>
+<div id="overview">
+    <h2>Overview</h2>
+    <p>{{movie['plot_overview']}}</p>
+</div>
 {% endblock %}
+<!--id="similar-titles">
+    <h2>Related Movies</h2>
+class="card movie-titles" style="width: 16rem;">
+        <a href="/movies/{{similar_titles['id']}}">
+            <img class="card-img-top" src="{{ similar_titles['poster'] }}" alt="Movie Poster">
+        </a>
+    class="card-body">
+            <h5 class="card-title">{{ similar_titles['name'] }}</h5>
+            <p class="card-text">{{ similar_titles['type'] }} {{ similar_titles['id'] }}</p>
+            <a href="/movies/{{similar_titles['id']}}" class="btn btn-primary">More Info</a>
+        
+    
+</div> -->
+
+
+
+<!--
+plot_overview
+genre_names
+critic_score
+ -->
