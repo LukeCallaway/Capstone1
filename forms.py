@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, TextAreaField
+from wtforms import StringField, PasswordField, TextAreaField, IntegerField
 from wtforms.validators import DataRequired, Email, Length
 
 class RegisterForm(FlaskForm):
@@ -35,9 +35,9 @@ class SearchMovie(FlaskForm):
 class SearchMovieByName(FlaskForm):
     """search api by movie title or actor name"""
 
-    name = StringField('Movie Title Or Actor Name')
+    name = StringField('Search By Movie Title')
 
-# class SearchMovieByActor(FlaskForm):
-#     """search api by actors"""
+class AddToFav(FlaskForm):
+    """search api by actors"""
 
-#     actor_name = StringField('Actor Name')
+    movie_rating = IntegerField('Give Movie A Rating', validators = [])
