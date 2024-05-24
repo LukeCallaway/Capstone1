@@ -1,21 +1,25 @@
-{% extends 'base.html' %}
-{% block title %} {{g.user.username}}'s Page {% endblock %}
+{% extends 'movies_search.html' %}
+{% block title %} Search Movies{% endblock %}
 {% block content %}
 
-<h1>Results After Searching For A Movie</h1>
+<h1>Results After Searching For A Movie.</h1>
+<a href="/movies">Search Again?</a>
 
-{% for r in res %}
-<div class="card movie-titles" style="width: 18rem;">
-    <a href="/movies_search/{{r['id']}}">
-        <img class="card-img-top" src="{{ r['image_url'] }}" alt="Movie Poster">
-    </a>
-    <div class="card-body">
-        <h5 class="card-title">{{ r['name'] }}</h5>
-        <p class="card-text">{{ r['type'] }} {{ r['id'] }}</p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
+{% if list_length == 0 %}
+    <p id="no-movie-res">No Results! <a href="/movies">Try Searching Again</a></p>
+{% else %}
+    {% for r in res %}
+    <div class="card movie-titles" style="width: 18rem;">
+        <a href="/movies/{{r['id']}}">
+            <img class="card-img-top" src="{{ r['image_url'] }}" alt="Movie Poster">
+        </a>
+        <div class="card-body">
+            <h5 class="card-title">{{ r['name'] }}</h5>
+            <p class="card-text">{{ r['type'] }} {{ r['id'] }}</p>
+            <a href="/movies/{{r['id']}}" class="btn btn-primary">More Info</a>
+        </div>
     </div>
-</div>
 {% endfor %}
-
+{% endif %}
 
 {% endblock %}
