@@ -1,0 +1,17 @@
+{% extends 'users/base_users.html' %}
+{% block title %} {{g.user.username}}'s Watch Later {% endblock %}
+{% block user_details %}
+<h1 id="watch-later-h1">Watch Later</h1>
+<h2>{{wll}}</h2>
+
+{% if list_length == 0 %}
+    <p>No Movies Saved!</p>
+{% else %}
+    {% for m in watch_later %}
+    <p>{{m.movie_name}}</p>
+    {% endfor %}
+{% endif %}
+{% endblock %}
+
+
+

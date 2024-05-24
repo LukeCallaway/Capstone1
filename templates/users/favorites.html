@@ -1,0 +1,13 @@
+{% extends 'users/base_users.html' %}
+{% block title %} {{g.user.username}}'s Favorites {% endblock %}
+{% block user_details %}
+<h1 id="favorites-h1">Favorites</h1>
+
+{% if list_length == 0 %}
+    <p>No Favorites Saved Yet!</p>
+{% else %}
+    {% for m in favorites %}
+    <p>{{m.movie_name}} {{m.movie_rating}}</p>
+    {% endfor %}
+{% endif %}
+{% endblock %}
