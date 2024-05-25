@@ -208,7 +208,7 @@ def search_movies():
         res = get_basic_info(name)
         list_length = len(res['results'])
 
-        return render_template('movie_search_list.html', res = res['results'], list_length = list_length)
+        return render_template('movie_search_list.html', name = name, res = res['results'], list_length = list_length)
 
     return render_template('movies_search.html', form = form)
 
@@ -239,12 +239,16 @@ def movie_info(id):
 
         return redirect(f'/movies/{id}')
 
-    # limit to 1 for now 
-    # similar_titles = get_all_info(movie['similar_titles'][6])
-    # for title in similar_titles:
-    #   print(title['title'], title['poster'])
+    # grab 5 ids from movies similar to searched for movie and display them on the page
+    similar_titles = movie['similar_titles'][:5]
+    sim_titles_info = {}
+    i = 0
+    for movie_id in similar_titles:
+        m = get_all_info(movie_id)
+        sim_titles_info[f'movie{i}'] = [m['id'], m['title'], m['year'], m['poster']]
+        i += 1
 
-    return render_template('single_movie_info.html', movie = movie, form = form) #, similar_titles = similar_titles)
+    return render_template('single_movie_info.html', movie = movie, form = form,  sim_titles_info = sim_titles_info)
 
 
 

@@ -49,25 +49,25 @@
     <h2>Overview</h2>
     <p>{{movie['plot_overview']}}</p>
 </div>
-{% endblock %}
-<!--id="similar-titles">
+<div id="similar-titles">
     <h2>Related Movies</h2>
-class="card movie-titles" style="width: 16rem;">
-        <a href="/movies/{{similar_titles['id']}}">
-            <img class="card-img-top" src="{{ similar_titles['poster'] }}" alt="Movie Poster">
+
+    {% for value in sim_titles_info.values() %}
+    <div class="card movie-titles" id="sim-titles" style="width: 18rem;">
+        <a href="/movies/{{value[0]}}">
+            <img class="card-img-top" src="{{ value[3] }}" alt="Movie Poster">
         </a>
-    class="card-body">
-            <h5 class="card-title">{{ similar_titles['name'] }}</h5>
-            <p class="card-text">{{ similar_titles['type'] }} {{ similar_titles['id'] }}</p>
-            <a href="/movies/{{similar_titles['id']}}" class="btn btn-primary">More Info</a>
+        <div class="card-body">
+            <h5 class="card-title">{{ value[1] }}</h5>
+            <p>Year of Release: {{ value[2] }}</p>
+            <a href="/movies/{{value[0]}}" class="btn btn-primary">More Info</a>
+        </div>
+    </div>
+{% endfor %}
+</div>
+{% endblock %}
+
+
         
     
-</div> -->
 
-
-
-<!--
-plot_overview
-genre_names
-critic_score
- -->
