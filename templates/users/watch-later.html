@@ -8,7 +8,7 @@
     <p>No Movies Saved!</p>
 {% else %}
     {% for m in watch_later %}
-    <p>{{m.movie_name}}</p>
+    <a href="/movies/{{m.movie_id}}"><p>{{m.movie_name}}</p></a>
     {% endfor %}
 {% endif %}
 {% endblock %}
