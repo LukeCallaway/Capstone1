@@ -1,0 +1,20 @@
+{% extends 'users/base_users.html' %}
+
+{% block user_details %}
+<h1>Searched Users</h1>
+  {% for u in users%}
+  <div>
+  {% if g.user.is_following(u) %}
+  <form method="POST" action="/users/stop-following/{{ u.id }}">
+    <button class="btn btn-primary">Unfollow</button>
+  </form>
+  {% else %}
+  <form method="POST" action="/users/follow/{{ u.id }}">
+    <button class="btn btn-outline-primary">Follow</button>
+  </form>
+  {% endif %}
+
+  <p>{{u.username}}</p>
+  {% endfor %}
+  </div>
+{% endblock %}

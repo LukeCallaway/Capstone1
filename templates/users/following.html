@@ -2,6 +2,14 @@
 {% block title %} {{g.user.username}}'s Page {% endblock %}
 {% block user_details %}
 
-<h1>{{g.user.username}}'s following</h1>
+<h1>Following</h1>
+
+{% if following_list_len == 0 %}
+    <p>Not Following Anyone!</p>
+{% else %}
+    {% for f in user.following %}
+        <p>{{f.id}} {{f.username}}</p>
+    {% endfor %}
+{% endif %}
 
 {% endblock %}
