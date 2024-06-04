@@ -158,11 +158,24 @@ class User(db.Model):
         secondaryjoin=(Follows.user_being_followed_id == id)
     )
 
-    # favorites = db.relationship(
-    #     'User',
-    #     secondary='favorites',
-    #     primaryjoin=(Favorites.user_id == user.id)
-    # )
+    def is_followed_by(self, other_user):
+        """Is this user followed by `other_user`?"""
+
+        found_user_list = [user for user in self.followers if user == other_user]
+        return len(found_user_list) == 1
+
+    def is_following(self, other_user):
+        """Is this user following `other_user`?"""
+
+        found_user_list = [user for user in self.following if user == other_user]
+        return len(found_user_list) == 1
+
+    favorites = db.relationship(
+        'Favorites'
+        # 'User',
+        # secondary='favorites',
+        # primaryjoin=(Favorites.user_id == id)
+    )
 
 def connect_db(app):
     """Connect this database to flask app"""
