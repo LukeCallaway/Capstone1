@@ -6,8 +6,9 @@ from sqlalchemy.exc import IntegrityError
 from forms import RegisterForm, LoginForm, EditUserForm, SearchMovieByName, AddToFav
 from models import db, connect_db, User, Follows, Watch_Later, Favorites
 from my_secrets import MY_API_KEY, DB_URI, SECRET_KEY
-from api_call_functions import get_basic_info, get_all_info, is_on_list
+from helper_functions import get_basic_info, get_all_info, is_on_list,get_sim_to_favs, get_similar_titles, list_titles_by_genre, get_suggestions
 
+from random import randint
 import requests
 
 CURR_USER_KEY = "curr_user"
@@ -42,15 +43,28 @@ def do_logout():
     if CURR_USER_KEY in session:
         del session[CURR_USER_KEY]
 
-@app.route('/', methods = ['GET'])
+@app.route('/', methods = ['GET','POSt'])
 def home_page():
-    """Home Page for logged in and logged out users"""
+    """Home Page for logged in users"""
     
     if g.user:
+        suggestions = get_suggestions(g.user.id)
+        form = SearchMovieByName()
+        followings = g.user.following
 
-        return render_template('home_page.html')
+        # for f in followings:
+        #     print(f.id, f.username, f.favorites)
 
-    return render_template('home_page_anon.html')
+        if form.validate_on_submit():
+            name = form.name.data
+            res = get_basic_info(name)
+            list_length = len(res['results'])
+
+            return render_template('movie_search_list.html', name = name, res = res['results'], list_length = list_length)
+
+        return render_template('home_page.html', form = form, followings = followings, suggestions = suggestions)
+
+    return redirect('/register')
 
 @app.route('/register', methods = ['GET', 'POST'])
 def register():
@@ -110,6 +124,22 @@ def logout():
     return redirect('/')
 
 #*************************************************************\ user routes
+@app.route('/users/<int:user_id>')
+def list_users(user_id):
+    """Return list of users"""
+    if not g.user:
+        flash('Access unauthorized', 'danger')
+        return redirect('/')
+
+    search = request.args.get('q')
+
+    if not search:
+        users = User.query.filter(User.id != g.user.id).all()
+    else:
+        users = User.query.filter(User.username.like(f"%{search}%"), User.id != g.user.id).all()
+
+    return render_template('users/index.html', users = users, user = g.user.id)
+
 
 @app.route('/users/<int:user_id>')
 def user_profile(user_id):
@@ -127,6 +157,7 @@ def edit_user(user_id):
 
     if not g.user:
         flash('Access unauthorized', 'danger')
+        return redirect('/')
 
     if form.validate_on_submit():
         if g.user.check_password(form.password.data):
@@ -155,8 +186,10 @@ def show_following(user_id):
         return redirect("/")
 
     user = User.query.get_or_404(user_id)
+    following_list_len = len(user.following)
     print(user.followers, user.following)
-    return render_template('users/following.html', user=user)
+
+    return render_template('users/following.html', user=user, following_list_len = following_list_len)
 
 @app.route('/users/<int:user_id>/followers')
 def users_followers(user_id):
@@ -167,7 +200,36 @@ def users_followers(user_id):
         return redirect("/")
 
     user = User.query.get_or_404(user_id)
-    return render_template('users/followers.html', user=user)   
+    follower_list_len = len(user.followers)
+    print(follower_list_len, user.followers)
+    return render_template('users/followers.html', user=user, follower_list_len = follower_list_len)   
+
+@app.route('/users/follow/<int:follow_id>', methods=['POST'])
+def add_follow(follow_id):
+
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/")
+
+    followed_user = User.query.get_or_404(follow_id)
+    g.user.following.append(followed_user)
+    db.session.commit()
+
+    return redirect(f"/users/{g.user.id}/following")
+
+@app.route('/users/stop-following/<int:follow_id>', methods=['POST'])
+def stop_following(follow_id):
+    """Have currently-logged-in-user stop following this user."""
+
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/")
+
+    followed_user = User.query.get(follow_id)
+    g.user.following.remove(followed_user)
+    db.session.commit()
+
+    return redirect(f"/users/{g.user.id}/following")
 
 @app.route('/users/<int:user_id>/favorites')
 def user_favorites(user_id):
@@ -192,25 +254,6 @@ def user_watch_later(user_id):
     return render_template('users/watch-later.html', user = user, watch_later = watch_later, list_length = list_length)
 
 #****************************************************************************\ movie routes    
-
-@app.route('/movies', methods=['GET', 'POST'])
-def search_movies():
-    """Search for a movie by actor or title"""
-
-    if not g.user:
-        flash("Access unauthorized.", "danger")
-        return redirect("/")
-
-    form = SearchMovieByName()
-
-    if form.validate_on_submit():
-        name = form.name.data
-        res = get_basic_info(name)
-        list_length = len(res['results'])
-
-        return render_template('movie_search_list.html', name = name, res = res['results'], list_length = list_length)
-
-    return render_template('movies_search.html', form = form)
 
 @app.route('/movies/<int:id>', methods=['GET','POST'])
 def movie_info(id):
@@ -239,14 +282,9 @@ def movie_info(id):
 
         return redirect(f'/movies/{id}')
 
-    # grab 5 ids from movies similar to searched for movie and display them on the page
+    # display 5 similar movies        
     similar_titles = movie['similar_titles'][:5]
-    sim_titles_info = {}
-    i = 0
-    for movie_id in similar_titles:
-        m = get_all_info(movie_id)
-        sim_titles_info[f'movie{i}'] = [m['id'], m['title'], m['year'], m['poster']]
-        i += 1
+    sim_titles_info = get_similar_titles(similar_titles)
 
     return render_template('single_movie_info.html', movie = movie, form = form,  sim_titles_info = sim_titles_info)
 
@@ -270,10 +308,6 @@ def add_to_watch_later(id):
     flash('Added to Watch Later List!', 'success')
 
     return redirect(f'/movies/{id}')
-
-
-
-
 
 @app.errorhandler(404)
 def not_found(e):
