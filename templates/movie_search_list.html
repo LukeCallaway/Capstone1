@@ -1,9 +1,9 @@
-{% extends 'movies_search.html' %}
+{% extends 'base.html' %}
 {% block title %} Search Movies{% endblock %}
 {% block content %}
 
-<h1>Results After Searching For A Movie.</h1>
-<a href="/movies">Search Again?</a>
+<h1>Results For "{{ name }}"</h1>
+<a href="/">Not What You're Looking For? Search Again!</a>
 
 {% if list_length == 0 %}
     <p id="no-movie-res">No Results! <a href="/movies">Try Searching Again</a></p>
@@ -15,7 +15,7 @@
         </a>
         <div class="card-body">
             <h5 class="card-title">{{ r['name'] }}</h5>
-            <p class="card-text">{{ r['type'] }} {{ r['id'] }}</p>
+            <p>Year of Release: {{ r['year'] }}</p>
             <a href="/movies/{{r['id']}}" class="btn btn-primary">More Info</a>
         </div>
     </div>
