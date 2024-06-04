@@ -6,8 +6,14 @@
 {% if list_length == 0 %}
     <p>No Favorites Saved Yet!</p>
 {% else %}
+<div>
+    <ol>
     {% for m in favorites %}
-    <p>{{m.movie_name}} {{m.movie_rating}}</p>
+        <li>
+            <a class="user-lists" href="/movies/{{m.movie_id}}"><p>{{m.movie_name}} {{m.movie_rating}}</p></a>
+        </li>
     {% endfor %}
+    </ol>
+</div>
 {% endif %}
 {% endblock %}

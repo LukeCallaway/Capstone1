@@ -7,9 +7,13 @@
 {% if list_length == 0 %}
     <p>No Movies Saved!</p>
 {% else %}
-    {% for m in watch_later %}
-    <a href="/movies/{{m.movie_id}}"><p>{{m.movie_name}}</p></a>
-    {% endfor %}
+    <ol>
+        {% for m in watch_later %}
+        <li>
+            <a class="user-lists" href="/movies/{{m.movie_id}}"><p>{{m.movie_name}}</p></a>
+        </li>
+        {% endfor %}
+    </ol>
 {% endif %}
 {% endblock %}
 
