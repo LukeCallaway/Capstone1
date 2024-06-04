@@ -40,4 +40,4 @@ class SearchMovieByName(FlaskForm):
 class AddToFav(FlaskForm):
     """search api by actors"""
 
-    movie_rating = IntegerField('Give Movie A Rating', validators = [])
+    movie_rating = IntegerField('Give Movie A Rating')
