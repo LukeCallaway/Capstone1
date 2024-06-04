@@ -36,7 +36,7 @@
 <div id="genres">
     <h2>Genres</h2>
     <ul>
-    {% for genre in movie['genre_names'] %}
+    {% for genre in movie['genre_names'][:3] %}
         <li class="genre">{{ genre }}</li>
     {% endfor %}
     </ul>
@@ -66,8 +66,3 @@
 {% endfor %}
 </div>
 {% endblock %}
-
-
-        
-    
-
