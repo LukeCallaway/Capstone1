@@ -92,10 +92,12 @@ input #search{
     margin-top: 10px;
 }
 
-#movie-search-div{
+/* #movie-search-div{
     max-width: 50%;
+    margin-top: 25px;
+    margin-left: 25%;
     display: block;
-}
+} */
 #movie-result-div{
     width: 95%;
     /* align-items: center; */
@@ -106,13 +108,39 @@ input #search{
 /* #movie-search-div{
 
 }
-
+ */
 #movie-form{
-
+    margin-top: 10px;
 }
 
 #movie-form-button{
+    position: relative;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 220px;
+    width: 20%;
+} 
 
+/* .carousel-img{
+    position: relative;
+    max-width: 400px;
+    /* max-height: 400px; */
+/* } */ 
+
+/* #carousel-div{
+    position: relative;
+    margin-left: 25%;
+    /* display: inline; */
+    /* max-width: 400px; */
+/* }  */ 
+
+.left-grid{
+    margin-left: 0px;
+}
+/*
+.carousel-item{
+    position: relative;
+    max-width: 400px;
 } */
 
 #movie-result-div > p{
@@ -202,6 +230,7 @@ input #search{
 }
 
 #genres{
+    position: relative;
     margin-left: 10px;
     min-height: 135px;
 }
@@ -221,8 +250,33 @@ input #search{
     position: absolute;
     margin-left: 320px;
     margin-top: -133px;
+    max-width: 450px;
 }
 
 #sim-titles{
     padding-left: 10px;
 }
+
+.user-lists{
+    display: inline-block;
+}
+
+.user-details{
+    margin-left: 10px;
+}
+
+#movie-posters{
+    align-items: center;
+    margin-left: 100px;
+    padding-left: 100px;
+    padding-top: 25px;
+}
+
+.carousel-inner, img, .carousel-indicators{
+    margin: auto;
+  }
+
+.carousel-title{
+    color: white;
+}
+  
