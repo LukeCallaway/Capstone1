@@ -24,7 +24,7 @@ class Follows(db.Model):
     )
 
 class Watch_Later(db.Model):
-    """Movies saved to list"""
+    """A users watch later movies"""
 
     __tablename__ = 'watch_later'
 
@@ -79,7 +79,7 @@ class Favorites(db.Model):
     )
 
 class User(db.Model):
-    """Table and methods for user"""
+    """Table and methods for users"""
 
     __tablename__ = 'users'
 
@@ -172,9 +172,6 @@ class User(db.Model):
 
     favorites = db.relationship(
         'Favorites'
-        # 'User',
-        # secondary='favorites',
-        # primaryjoin=(Favorites.user_id == id)
     )
 
 def connect_db(app):
