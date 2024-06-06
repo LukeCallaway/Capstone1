@@ -8,7 +8,6 @@ from models import db, connect_db, User, Follows, Watch_Later, Favorites
 from my_secrets import MY_API_KEY, DB_URI, SECRET_KEY
 from helper_functions import get_basic_info, get_all_info, is_on_list,get_sim_to_favs, get_similar_titles, list_titles_by_genre, get_suggestions
 
-from random import randint
 import requests
 
 CURR_USER_KEY = "curr_user"
@@ -52,9 +51,6 @@ def home_page():
         form = SearchMovieByName()
         followings = g.user.following
 
-        # for f in followings:
-        #     print(f.id, f.username, f.favorites)
-
         if form.validate_on_submit():
             name = form.name.data
             res = get_basic_info(name)
@@ -65,7 +61,7 @@ def home_page():
         return render_template('home_page.html', form = form, followings = followings, suggestions = suggestions)
 
     return redirect('/register')
-
+#*************************************************************// auth routes
 @app.route('/register', methods = ['GET', 'POST'])
 def register():
     """Handle user register."""
@@ -125,11 +121,21 @@ def logout():
 
 #*************************************************************\ user routes
 @app.route('/users/<int:user_id>')
+def user_profile(user_id):
+    """Show user profile"""
+    
+    user = User.query.get_or_404(user_id)
+
+    return render_template('users/profile.html', user = user)
+
+@app.route('/users/<int:user_id>/search')
 def list_users(user_id):
     """Return list of users"""
-    if not g.user:
+    user = User.query.get_or_404(user_id)
+
+    if g.user != user:
         flash('Access unauthorized', 'danger')
-        return redirect('/')
+        return redirect(f'/users/{g.user.id}')
 
     search = request.args.get('q')
 
@@ -140,24 +146,17 @@ def list_users(user_id):
 
     return render_template('users/index.html', users = users, user = g.user.id)
 
-
-@app.route('/users/<int:user_id>')
-def user_profile(user_id):
-    """Show user profile"""
-    
-    user = User.query.get_or_404(user_id)
-
-    return render_template('users/profile.html', user = user)
-
-@app.route('/users/<int:user_id>/edit')
+@app.route('/users/<int:user_id>/edit', methods=['GET', 'POST'])
 def edit_user(user_id):
     """Display edit user form"""
 
     form = EditUserForm(obj = g.user)
 
-    if not g.user:
+    user = User.query.get_or_404(user_id)
+
+    if g.user != user:
         flash('Access unauthorized', 'danger')
-        return redirect('/')
+        return redirect(f'/users/{g.user.id}')
 
     if form.validate_on_submit():
         if g.user.check_password(form.password.data):
@@ -170,24 +169,41 @@ def edit_user(user_id):
             db.session.commit()
 
             flash('Info successfully updated!', 'success')
-            return redirect('/')
+            return redirect(f'/users/{g.user.id}')
 
         flash('Incorrect Password', 'danger')
-        return render_template('edit.html', form = form, user = g.user)
+        return render_template('/users/edit.html', form = form, user = g.user)
 
-    return render_template('edit.html', form = form, user = g.user)
+    return render_template('/users/edit.html', form = form, user = g.user)
+
+@app.route('/users/<int:user_id>/delete', methods=['POST'])
+def del_user(user_id):
+    """Deletes User"""
+
+    user = User.query.get_or_404(user_id)
+
+    if g.user != user:
+        flash('Access unauthorized', 'danger')
+        return redirect(f'/users/{g.user.id}')
+
+    db.session.delete(user)
+    db.session.commit()
+
+    flash('Account deleted successfully', 'success')
+    return redirect('/register')
+
 
 @app.route('/users/<int:user_id>/following')
 def show_following(user_id):
     """Show list of people user is following"""
+    user = User.query.get_or_404(user_id)
 
-    if not g.user:
-        flash("Access unauthorized.", "danger")
-        return redirect("/")
+    if g.user != user:
+        flash('Access unauthorized', 'danger')
+        return redirect(f'/users/{g.user.id}')
 
     user = User.query.get_or_404(user_id)
     following_list_len = len(user.following)
-    print(user.followers, user.following)
 
     return render_template('users/following.html', user=user, following_list_len = following_list_len)
 
@@ -195,9 +211,11 @@ def show_following(user_id):
 def users_followers(user_id):
     """Show list of followers of this user."""
 
-    if not g.user:
-        flash("Access unauthorized.", "danger")
-        return redirect("/")
+    user = User.query.get_or_404(user_id)
+
+    if g.user != user:
+        flash('Access unauthorized', 'danger')
+        return redirect(f'/users/{g.user.id}')
 
     user = User.query.get_or_404(user_id)
     follower_list_len = len(user.followers)
@@ -208,8 +226,8 @@ def users_followers(user_id):
 def add_follow(follow_id):
 
     if not g.user:
-        flash("Access unauthorized.", "danger")
-        return redirect("/")
+        flash('Unauthorized', 'danger')
+        return redirect('/')
 
     followed_user = User.query.get_or_404(follow_id)
     g.user.following.append(followed_user)
@@ -222,8 +240,8 @@ def stop_following(follow_id):
     """Have currently-logged-in-user stop following this user."""
 
     if not g.user:
-        flash("Access unauthorized.", "danger")
-        return redirect("/")
+        flash('Unauthorized', 'danger')
+        return redirect('/')
 
     followed_user = User.query.get(follow_id)
     g.user.following.remove(followed_user)
@@ -235,6 +253,11 @@ def stop_following(follow_id):
 def user_favorites(user_id):
 
     user = User.query.get_or_404(user_id)
+
+    if g.user != user:
+        flash('Access unauthorized', 'danger')
+        return redirect(f'/users/{g.user.id}')
+
     favorites = (Favorites.query.filter(Favorites.user_id == user_id)
                                 .order_by(Favorites.movie_rating.desc())
                                 .all())
@@ -246,6 +269,11 @@ def user_favorites(user_id):
 def user_watch_later(user_id):
 
     user = User.query.get_or_404(user_id)
+
+    if g.user != user:
+        flash('Access unauthorized', 'danger')
+        return redirect(f'/users/{g.user.id}')
+
     watch_later = (Watch_Later.query.filter(Watch_Later.user_id == user_id)
                                 .order_by(Watch_Later.movie_name)
                                 .all())
