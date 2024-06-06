@@ -2,6 +2,9 @@
 
 {% block user_details %}
 <h1>Searched Users</h1>
+{% if not users %}
+<P>No users found!</P>
+{% else %}
   {% for u in users%}
   <div>
   {% if g.user.is_following(u) %}
@@ -17,4 +20,5 @@
   <p>{{u.username}}</p>
   {% endfor %}
   </div>
+  {% endif %}
 {% endblock %}

@@ -25,7 +25,6 @@
       </div>
       </div>
       <div class="col-sm-4">
-        <h1>This side is Empty</h1>
       </div>
     </div>
   </div>
@@ -33,7 +32,7 @@
     <div class="row">
       <div class="col-sm-2">
         <div>
-          {% if followings %}
+          {% if followings %}          
             {% for f in followings %}
             <h3>{{ f.username }}'s List</h3>
               {% if f.favorites %}
@@ -47,7 +46,7 @@
               {% endif %}
             {% endfor%}
           {% else %}
-            <h3>Try Finding Friends!</h3>
+            <h3>Tip: Follow other users to see what movies they enjoy!</h3>
           {% endif %}
         </div>
       </div>
@@ -62,7 +61,11 @@
           <div class="carousel-inner">
             <div class="carousel-item active">
               <a href="/movies/{{suggestions[0]['id']}}">
-              <img class="d-block w-50 carousel-img" src="{{suggestions[0]['backdrop']}}" alt="Movie Poster 1">
+                {% if suggestions[0]['backdrop'] == None %}
+                <img class="d-block w-50 carousel-img" src="/static/images/capstone-no-img.png" alt="Movie Poster 2">
+                  {% else %} 
+                  <img class="d-block w-50 carousel-img" src="{{suggestions[0]['backdrop']}}" alt="Movie Poster 2"> 
+                {% endif %}
               <div class="carousel-caption d-none d-md-block">
                 <h5>{{suggestions[0]['title']}}</h5>
               </div>
@@ -70,7 +73,11 @@
             </div>
             <div class="carousel-item">
               <a href="/movies/{{suggestions[1]['id']}}">
-              <img class="d-block w-50 carousel-img" src="{{suggestions[1]['backdrop']}}" alt="Movie Poster 2">
+                {% if suggestions[1]['backdrop'] == None %}
+              <img class="d-block w-50 carousel-img" src="/static/images/capstone-no-img.png" alt="Movie Poster 2">
+                {% else %} 
+                <img class="d-block w-50 carousel-img" src="{{suggestions[1]['backdrop']}}" alt="Movie Poster 2"> 
+              {% endif %}
               <div class="carousel-caption d-none d-md-block">
                 <h5>{{suggestions[1]['title']}}</h5>
               </div>
@@ -78,24 +85,21 @@
             </div>
             <div class="carousel-item">
               <a href="/movies/{{suggestions[2]['id']}}">
-              <img class="d-block w-50 carousel-img" src="{{suggestions[2]['backdrop']}}" alt="Movie Poster 3">
-              <div class="carousel-caption d-none d-md-block">
-                <h5>{{suggestions[2]['title']}}</h5>
-              </div>
-            </a>
+                {% if suggestions[2]['backdrop'] == None %}
+                  <img class="d-block w-50 carousel-img" src="/static/images/capstone-no-img.png" alt="Movie Poster 2">
+                {% else %} 
+                  <img class="d-block w-50 carousel-img" src="{{suggestions[2]['backdrop']}}" alt="Movie Poster 2"> 
+                {% endif %}
+                  <div class="carousel-caption d-none d-md-block">
+                    <h5>{{suggestions[2]['title']}}</h5>
+                  </div>
+              </a>
             </div>
           </div>
         </div>
-
           </div>
         </div>
       </div>
-
-      <!-- <div class="col-sm-2">
-        <div class="embed-responsive embed-responsive-16by9">
-          <iframe class="embed-responsive-item" src="https://www.youtube.com/watch?v=mqqft2x_Aa4" allowfullscreen></iframe>
-        </div>
-      </div> -->
     </div>
   </div>
 {% endblock %}

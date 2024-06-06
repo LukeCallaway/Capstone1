@@ -3,11 +3,12 @@
 {% block content %}
 
 <h1>Results For "{{ name }}"</h1>
-<a href="/">Not What You're Looking For? Search Again!</a>
 
 {% if list_length == 0 %}
     <p id="no-movie-res">No Results! <a href="/movies">Try Searching Again</a></p>
 {% else %}
+<a href="/">Not What You're Looking For? Search Again!</a>
+
     {% for r in res %}
     <div class="card movie-titles" style="width: 18rem;">
         <a href="/movies/{{r['id']}}">
