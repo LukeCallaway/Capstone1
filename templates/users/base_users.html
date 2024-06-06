@@ -21,7 +21,7 @@
         <form method="POST" action="/users/{{ g.user.id }}/edit">
             <button class="btn btn-outline-secondary ml-2" id="edit-button">Edit Profile</button>
         </form>
-        <form method="POST" action="/users/delete" class="form-inline" id="delete-button">
+        <form method="POST" action="/users/{{g.user.id}}/delete" class="form-inline" id="delete-button">
           <button class="btn btn-outline-danger ml-2">Delete Profile</button>
         </form>
       </div>
