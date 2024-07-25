@@ -15,6 +15,7 @@ app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
 app.config['MY_API_KEY'] = os.environ.get('MY_API_KEY')
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 
 connect_db(app)
 
