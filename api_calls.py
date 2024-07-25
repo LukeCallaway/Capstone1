@@ -1,3 +1,4 @@
+import os
 import requests
 
 from random import randint
