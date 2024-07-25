@@ -3,6 +3,8 @@ import requests
 from random import randint
 from models import db, connect_db, User, Follows, Watch_Later, Favorites
 
+# app.config['MY_API_KEY'] = os.environ.get('MY_API_KEY')
+MY_API_KEY = os.environ.get('MY_API_KEY')
 
 base_url =  'https://api.watchmode.com/v1/'
 genre_ids = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 17, 18, 19, 
