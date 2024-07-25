@@ -1,5 +1,5 @@
 import requests
-from my_secrets import MY_API_KEY
+
 from random import randint
 from models import db, connect_db, User, Follows, Watch_Later, Favorites
 
