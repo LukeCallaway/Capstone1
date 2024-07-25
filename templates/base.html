@@ -20,11 +20,13 @@
           </div>
           <ul class="nav navbar-nav navbar-right" id="upper-right-nav-bar">
             {% if request.endpoint != None %}
+            {% if g.user.id %}
             <li>
               <form class="navbar-form navbar-right" action="/users/{{g.user.id}}/search" >
                 <input name="q" class="form-control" placeholder="Search Users" id="search">
               </form>
             </li>
+            {% endif %}
             {% endif %}
             {% if not g.user %}
             <li><a href="/register">Sign up</a></li>
