@@ -5,7 +5,6 @@ from sqlalchemy.exc import IntegrityError
 
 from forms import RegisterForm, LoginForm, EditUserForm, SearchMovieByName, AddToFav
 from models import db, connect_db, User, Follows, Watch_Later, Favorites
-# from my_secrets import MY_API_KEY, DB_URI, SECRET_KEY
 from api_calls import get_basic_info, get_all_info, is_on_list,get_sim_to_favs, get_similar_titles, list_titles_by_genre, get_suggestions
 
 import requests
@@ -14,8 +13,7 @@ CURR_USER_KEY = "curr_user"
 
 app = Flask(__name__)
 
-# app.config['SQLALCHEMY_DATABASE_URI'] = DB_URI
-# app.config['SECRET_KEY'] = SECRET_KEY
+
 
 connect_db(app)
 
