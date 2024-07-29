@@ -38,7 +38,7 @@ app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 # app.config['SQLALCHEMY_DATABASE_URI'] = DB_URI
 
 connect_db(app)
-db.session.rollingback()
+
 @app.before_request
 def add_user_to_g():
     """If we're logged in, add curr user to Flask global."""
@@ -88,7 +88,7 @@ def home_page():
 @app.route('/register', methods = ['GET', 'POST'])
 def register():
     """Handle user register."""
-
+    db.session.rollingback()
     form = RegisterForm()
     print(CURR_USER_KEY in session, g.user)
     if CURR_USER_KEY in session:
