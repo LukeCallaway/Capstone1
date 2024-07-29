@@ -20,16 +20,16 @@ CURR_USER_KEY = "curr_user"
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = (
-    os.environ.get('DATABASE_URL', DB_URI))
-app.config['SECRET_KEY'] = (
-    os.environ.get('SECRET_KEY', SECRET_KEY))
-app.config['MY_API_KEY'] = (
-    os.environ.get('MY_API_KEY',MY_API_KEY))
+# app.config['SQLALCHEMY_DATABASE_URI'] = (
+#     os.environ.get('DATABASE_URL', DB_URI))
+# app.config['SECRET_KEY'] = (
+#     os.environ.get('SECRET_KEY', SECRET_KEY))
+# app.config['MY_API_KEY'] = (
+#     os.environ.get('MY_API_KEY',MY_API_KEY))
 
-# app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
-# app.config['MY_API_KEY'] = os.environ.get('MY_API_KEY')
-# app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+app.config['MY_API_KEY'] = os.environ.get('MY_API_KEY')
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 # app.config['MY_API_KEY'] = MY_API_KEY
 # app.config['SECRET_KEY'] = SECRET_KEY
 # app.config['SQLALCHEMY_DATABASE_URI'] = DB_URI
