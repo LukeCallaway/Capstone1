@@ -90,6 +90,8 @@ def register():
     """Handle user register."""
 
     form = RegisterForm()
+    print(form.errors)
+
     print(CURR_USER_KEY in session, g.user)
     if CURR_USER_KEY in session:
         print('redirecting to home from register')
@@ -98,9 +100,11 @@ def register():
 
     print('before validation', form.validate_on_submit())
     if form.validate():
+        print(form.errors)
         pring('validated but not submitted')
 
     if form.is_submitted():
+        print(form.errors)
         db.session.rollback()
         print("submitted but not validated")
 
@@ -129,6 +133,8 @@ def register():
 
         return redirect('/')
     print('form was not validated or submitted')
+    print(form.errors)
+
 
     return render_template('users/register.html', form = form)
 
