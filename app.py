@@ -1,4 +1,5 @@
 import os
+import logging
 
 from flask import Flask, render_template, request, flash, redirect, session, g
 from sqlalchemy.exc import IntegrityError
@@ -19,6 +20,7 @@ import requests
 CURR_USER_KEY = "curr_user"
 
 app = Flask(__name__)
+logger = logging.getLogger(__name__)
 
 # app.config['SQLALCHEMY_DATABASE_URI'] = (
 #     os.environ.get('DATABASE_URL', DB_URI))
@@ -84,12 +86,14 @@ def register():
     """Handle user register."""
 
     form = RegisterForm()
-
+    logger.info('on register')
     if CURR_USER_KEY in session:
+        logger.info('user in sesh going to / ')
         return redirect('/')
 
     if form.validate_on_submit():
         try:
+            logger.info('trying user.register')
             user = User.register(
                 username = form.username.data,
                 password = form.password.data,
@@ -99,6 +103,7 @@ def register():
             db.session.commit()
 
         except IntegrityError:
+            logger.info('error rollingback')
             db.rollback()
             flash('Username is already taken', 'danger')
             return render_template('users/register.html', form = form)
