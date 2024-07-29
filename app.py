@@ -86,7 +86,7 @@ def register():
     form = RegisterForm()
 
     if CURR_USER_KEY in session:
-    return redirect('/')
+        return redirect('/')
 
     if form.validate_on_submit():
         try:
