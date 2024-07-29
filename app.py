@@ -20,8 +20,6 @@ import requests
 CURR_USER_KEY = "curr_user"
 
 app = Flask(__name__)
-logger = logging.getLogger(__name__)
-logging.basicConfig(level = logging.DEBUG, filename='log.log', filemode='w')
 
 # app.config['SQLALCHEMY_DATABASE_URI'] = (
 #     os.environ.get('DATABASE_URL', DB_URI))
@@ -90,51 +88,26 @@ def register():
     """Handle user register."""
 
     form = RegisterForm()
-    print(form.errors)
 
-    print(CURR_USER_KEY in session, g.user)
     if CURR_USER_KEY in session:
-        print('redirecting to home from register')
-        logger.info('user in sesh going to / ')
         return redirect('/')
 
-    print('before validation', form.validate_on_submit())
-    if form.validate():
-        print(form.errors)
-        print('validated but not submitted')
-
-    if form.is_submitted():
-        print(form.errors)
-
-        print("submitted but not validated")
-
     if form.validate_on_submit():
-        print('after validation')
         try:
-            logger.info('trying user.register')
-            print('trying register')
             user = User.register(
                 username = form.username.data,
                 password = form.password.data,
                 email = form.email.data
             )
-            print('register success commiting')
             db.session.commit()
-            print('commited')
         except Exception:
-            logger.info('error rollingback')
-            print('exception hit')
             db.session.rollback()
             flash('Username is already taken', 'danger')
             return render_template('users/register.html', form = form)
-        print('doing login')
         do_login(user)
         flash(f'Welcome, {user.username}!', 'success')
 
         return redirect('/')
-    print('form was not validated or submitted')
-    print(form.errors)
-
 
     return render_template('users/register.html', form = form)
 
@@ -143,13 +116,9 @@ def login():
     """Handle logging in a user"""
 
     form = LoginForm()
-    print('login page')
     if CURR_USER_KEY in session:
         return redirect('/')
-    print('no curr user in sesh')
-    print('form validated?', form.validate_on_submit())
     if form.validate_on_submit():
-        print('form validated')
         user = User.authenticate(form.username.data,
                                  form.password.data)
 
@@ -167,9 +136,6 @@ def logout():
     """Handle logging out a user"""
 
     do_logout()
-
-    
-
     return redirect('/')
 
 #*************************************************************\ user routes
