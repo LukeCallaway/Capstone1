@@ -95,10 +95,11 @@ def register():
         print('redirecting to home from register')
         logger.info('user in sesh going to / ')
         return redirect('/')
-        
-    print('form validated?', form.validate_on_submit())
+
+    print('before validation', form.validate_on_submit())
 
     if form.validate_on_submit():
+        print('after validation')
         try:
             logger.info('trying user.register')
             print('trying register')
