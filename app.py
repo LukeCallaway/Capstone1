@@ -21,6 +21,7 @@ CURR_USER_KEY = "curr_user"
 
 app = Flask(__name__)
 logger = logging.getLogger(__name__)
+logging.basicConfig(level = logging.DEBUG, filename='log.log', filemode='w')
 
 # app.config['SQLALCHEMY_DATABASE_URI'] = (
 #     os.environ.get('DATABASE_URL', DB_URI))
@@ -86,7 +87,6 @@ def register():
     """Handle user register."""
 
     form = RegisterForm()
-    logger.info('on register')
     if CURR_USER_KEY in session:
         logger.info('user in sesh going to / ')
         return redirect('/')
@@ -104,7 +104,6 @@ def register():
 
         except IntegrityError:
             logger.info('error rollingback')
-            db.rollback()
             flash('Username is already taken', 'danger')
             return render_template('users/register.html', form = form)
 
