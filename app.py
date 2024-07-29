@@ -88,7 +88,7 @@ def home_page():
 @app.route('/register', methods = ['GET', 'POST'])
 def register():
     """Handle user register."""
-    db.session.rollingback()
+    
     form = RegisterForm()
     print(CURR_USER_KEY in session, g.user)
     if CURR_USER_KEY in session:
