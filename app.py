@@ -119,9 +119,9 @@ def register():
         print('doing login')
         do_login(user)
         flash(f'Welcome, {user.username}!', 'success')
-    print('form was not validated or submitted')
 
         return redirect('/')
+    print('form was not validated or submitted')
 
     return render_template('users/register.html', form = form)
 
