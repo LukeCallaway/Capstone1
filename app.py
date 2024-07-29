@@ -101,7 +101,7 @@ def register():
     print('before validation', form.validate_on_submit())
     if form.validate():
         print(form.errors)
-        pring('validated but not submitted')
+        print('validated but not submitted')
 
     if form.is_submitted():
         print(form.errors)
