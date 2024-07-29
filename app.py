@@ -59,7 +59,7 @@ def do_login(user):
 def do_logout():
     """Logout user."""
 
-    if g.user:
+    if CURR_USER_KEY in session:
         del session[CURR_USER_KEY]
         flash('You were succssfully logged out!', 'success')
     else:
