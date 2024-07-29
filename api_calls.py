@@ -7,9 +7,9 @@ from db import db, connect_db
 from models.favorites import Favorites
 from models.users import User
 
-# from my_secrets import MY_API_KEY
-# MY_API_KEY = MY_API_KEY
-MY_API_KEY = os.environ.get('MY_API_KEY')
+from my_secrets import MY_API_KEY
+MY_API_KEY = MY_API_KEY
+# MY_API_KEY = os.environ.get('MY_API_KEY')
 
 
 base_url =  'https://api.watchmode.com/v1/'

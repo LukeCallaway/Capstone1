@@ -14,7 +14,7 @@ from models.watch_later import Watch_Later
 
 from api_calls import get_basic_info, get_all_info, is_on_list,get_sim_to_favs, get_similar_titles, list_titles_by_genre, get_suggestions
 
-from my_secrets import MY_API_KEY, DB_URI, SECRET_KEY
+# from my_secrets import MY_API_KEY, DB_URI, SECRET_KEY
 import requests
 
 CURR_USER_KEY = "curr_user"
@@ -30,12 +30,12 @@ logging.basicConfig(level = logging.DEBUG, filename='log.log', filemode='w')
 # app.config['MY_API_KEY'] = (
 #     os.environ.get('MY_API_KEY',MY_API_KEY))
 
-# app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
-# app.config['MY_API_KEY'] = os.environ.get('MY_API_KEY')
-# app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
-app.config['MY_API_KEY'] = MY_API_KEY
-app.config['SECRET_KEY'] = SECRET_KEY
-app.config['SQLALCHEMY_DATABASE_URI'] = DB_URI
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+app.config['MY_API_KEY'] = os.environ.get('MY_API_KEY')
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
+# app.config['MY_API_KEY'] = MY_API_KEY
+# app.config['SECRET_KEY'] = SECRET_KEY
+# app.config['SQLALCHEMY_DATABASE_URI'] = DB_URI
 
 connect_db(app)
 
