@@ -105,7 +105,7 @@ def register():
 
     if form.is_submitted():
         print(form.errors)
-        db.session.rollback()
+
         print("submitted but not validated")
 
     if form.validate_on_submit():
