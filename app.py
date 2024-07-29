@@ -88,13 +88,15 @@ def home_page():
 @app.route('/register', methods = ['GET', 'POST'])
 def register():
     """Handle user register."""
-    
+
     form = RegisterForm()
     print(CURR_USER_KEY in session, g.user)
     if CURR_USER_KEY in session:
         print('redirecting to home from register')
         logger.info('user in sesh going to / ')
         return redirect('/')
+        
+    print('form validated?', form.validate_on_submit())
 
     if form.validate_on_submit():
         try:
@@ -127,11 +129,13 @@ def login():
     """Handle logging in a user"""
 
     form = LoginForm()
-
+    print('login page')
     if CURR_USER_KEY in session:
         return redirect('/')
-
+    print('no curr user in sesh')
+    print('form validated?', form.validate_on_submit())
     if form.validate_on_submit():
+        print('form validated')
         user = User.authenticate(form.username.data,
                                  form.password.data)
 
