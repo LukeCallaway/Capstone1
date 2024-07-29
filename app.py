@@ -56,7 +56,8 @@ def do_login(user):
 def do_logout():
     """Logout user."""
 
-    del session[CURR_USER_KEY]
+    if CURR_USER_KEY in session:
+        del session[CURR_USER_KEY]
 
 @app.route('/', methods = ['GET','POSt'])
 def home_page():
@@ -83,6 +84,9 @@ def register():
     """Handle user register."""
 
     form = RegisterForm()
+
+    if CURR_USER_KEY in session:
+    return redirect('/')
 
     if form.validate_on_submit():
         try:
@@ -112,6 +116,9 @@ def login():
     """Handle logging in a user"""
 
     form = LoginForm()
+
+    if CURR_USER_KEY in session:
+        return redirect('/')
 
     if form.validate_on_submit():
         user = User.authenticate(form.username.data,
