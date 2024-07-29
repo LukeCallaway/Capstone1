@@ -59,8 +59,11 @@ def do_login(user):
 def do_logout():
     """Logout user."""
 
-    if CURR_USER_KEY in session:
+    if g.user:
         del session[CURR_USER_KEY]
+        flash('You were succssfully logged out!', 'success')
+    else:
+        return redirect('/')
 
 @app.route('/', methods = ['GET','POSt'])
 def home_page():
@@ -87,6 +90,7 @@ def register():
     """Handle user register."""
 
     form = RegisterForm()
+    print(CURR_USER_KEY, session)
     if CURR_USER_KEY in session:
         logger.info('user in sesh going to / ')
         return redirect('/')
@@ -102,8 +106,9 @@ def register():
 
             db.session.commit()
 
-        except IntegrityError:
+        except Exception:
             logger.info('error rollingback')
+            print('exception hit')
             flash('Username is already taken', 'danger')
             return render_template('users/register.html', form = form)
 
@@ -143,7 +148,7 @@ def logout():
 
     do_logout()
 
-    flash('You were succssfully logged out!', 'success')
+    
 
     return redirect('/')
 
@@ -247,7 +252,6 @@ def users_followers(user_id):
 
     user = User.query.get_or_404(user_id)
     follower_list_len = len(user.followers)
-    print(follower_list_len, user.followers)
     return render_template('users/followers.html', user=user, follower_list_len = follower_list_len)   
 
 @app.route('/users/follow/<int:follow_id>', methods=['POST'])
