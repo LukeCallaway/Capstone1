@@ -1,82 +1,9 @@
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
-
+from models.follows import Follows
+from db import db
 
 bcrypt = Bcrypt()
-
-db = SQLAlchemy()
-
-class Follows(db.Model):
-    """User to user connections"""
-
-    __tablename__ = 'follows'
-
-    user_being_followed_id = db.Column(
-        db.Integer,
-        db.ForeignKey('users.id', ondelete="cascade"),
-        primary_key=True,
-    )
-
-    user_following_id = db.Column(
-        db.Integer,
-        db.ForeignKey('users.id', ondelete="cascade"),
-        primary_key=True,
-    )
-
-class Watch_Later(db.Model):
-    """A users watch later movies"""
-
-    __tablename__ = 'watch_later'
-
-    id = db.Column(
-        db.Integer,
-        primary_key = True
-    )
-
-    user_id = db.Column(
-        db.Integer,
-        db.ForeignKey('users.id', ondelete = 'cascade')
-    )
-
-    movie_id = db.Column(
-        db.Integer,
-        nullable = False
-    )
-
-    movie_name = db.Column(
-        db.Text,
-        nullable = False
-    )
-
-class Favorites(db.Model):
-    """A users favorite movies"""
-
-    __tablename__ = 'favorites'
-
-    id = db.Column(
-        db.Integer,
-        primary_key = True
-    )
-
-    user_id = db.Column(
-        db.Integer,
-        db.ForeignKey('users.id', ondelete = 'cascade')
-    )
-
-    movie_id = db.Column(
-        db.Integer,
-        nullable = False
-    )
-
-    movie_name = db.Column(
-        db.Text,
-        nullable = False
-    )
-
-    movie_rating = db.Column(
-        db.Integer,
-        nullable = False
-    )
 
 class User(db.Model):
     """Table and methods for users"""
@@ -173,10 +100,3 @@ class User(db.Model):
     favorites = db.relationship(
         'Favorites'
     )
-
-def connect_db(app):
-    """Connect this database to flask app"""
-
-    db.app = app
-    db.init_app(app)
-    app.app_context().push()

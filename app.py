@@ -56,8 +56,7 @@ def do_login(user):
 def do_logout():
     """Logout user."""
 
-    if CURR_USER_KEY in session:
-        del session[CURR_USER_KEY]
+    del session[CURR_USER_KEY]
 
 @app.route('/', methods = ['GET','POSt'])
 def home_page():
