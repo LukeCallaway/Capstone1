@@ -97,6 +97,11 @@ def register():
         return redirect('/')
 
     print('before validation', form.validate_on_submit())
+    if form.validate():
+        pring('validated but not submitted')
+
+    if form.is_submitted():
+        print("submitted but not validated")
 
     if form.validate_on_submit():
         print('after validation')
