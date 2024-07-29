@@ -101,6 +101,7 @@ def register():
         pring('validated but not submitted')
 
     if form.is_submitted():
+        db.session.rollback()
         print("submitted but not validated")
 
     if form.validate_on_submit():
@@ -119,6 +120,7 @@ def register():
         except Exception:
             logger.info('error rollingback')
             print('exception hit')
+            db.session.rollback()
             flash('Username is already taken', 'danger')
             return render_template('users/register.html', form = form)
         print('doing login')
