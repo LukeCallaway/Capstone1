@@ -17,7 +17,13 @@
     {{ field(placeholder=field.label.text, class="form-control") }}
     {% endfor %}
 
-    <button id="add-to-favorites-button" class="btn btn-primary">Add to Favorites</button>
+    <button id="add-to-favorites-button" class="btn btn-primary">
+        {% if fav %}
+        Update Favorite
+        {% else %}
+        Add to Favorites
+        {% endif %}
+    </button>
 </form>
 
 <h1 id="movie-title">{{ movie['title'] }}</h1>
