@@ -1,6 +1,10 @@
+from flask import flash, redirect
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
 from models.follows import Follows
+from models.favorites import Favorites
+from models.watch_later import Watch_Later
+
 from db import db
 
 bcrypt = Bcrypt()
@@ -40,11 +44,6 @@ class User(db.Model):
         nullable = False
     )
 
-    def check_password(self, password):
-        if bcrypt.check_password_hash(self.password, password):
-            return True
-        return False
-
     @classmethod
     def register(cls, username, password, email):
         """Register user."""
@@ -57,6 +56,7 @@ class User(db.Model):
         )
 
         db.session.add(user)
+        db.session.commit()
 
         return user
 
@@ -85,6 +85,15 @@ class User(db.Model):
         secondaryjoin=(Follows.user_being_followed_id == id)
     )
 
+    favorites = db.relationship(
+        'Favorites'
+    )
+
+    def check_password(self, password):
+        if bcrypt.check_password_hash(self.password, password):
+            return True
+        return False
+
     def is_followed_by(self, other_user):
         """Is this user followed by `other_user`?"""
 
@@ -97,6 +106,57 @@ class User(db.Model):
         found_user_list = [user for user in self.following if user == other_user]
         return len(found_user_list) == 1
 
-    favorites = db.relationship(
-        'Favorites'
-    )
+    def update(self, username, email, first_name, last_name):
+        """Update user info based on params"""
+        self.username = username
+        self.email = email
+        self.first_name = first_name
+        self.last_name = last_name
+
+        db.session.add(self)
+        db.session.commit()
+
+        flash('Info successfully updated!', 'success')
+
+
+    def add_follow(self, to_follow_id):
+        """add new follower to user"""
+        new_follow = Follows(user_following_id = self.id, user_being_followed_id = to_follow_id)
+        db.session.add(new_follow)
+        db.session.commit()
+
+    def remove_follow(self, to_remove_id):
+        """remove follower from user"""
+        removed_user = User.query.get_or_404(to_remove_id)
+        self.following.remove(removed_user)
+        db.session.commit()
+
+    def delete_user(self):
+        """delete user profile"""
+        db.session.delete(self)
+        db.session.commit()
+
+        flash('Account deleted successfully', 'success')
+
+    def add_fav(self, id, title, rating):
+
+        new_fav = Favorites(user_id = self.id, movie_id = id, movie_name = title, movie_rating = rating)
+        
+        db.session.add(new_fav)
+        db.session.commit()
+
+        flash('Added to Favorites List!', 'success')
+
+    def add_watch_later(self, id, title):
+
+        new_watch_later = Watch_Later(user_id = self.id, movie_id = id, movie_name = title)
+        
+        db.session.add(new_watch_later)
+        db.session.commit()
+
+        flash('Added to Watch Later List!', 'success')
+
+    def check_user(self, user, url):
+        if self != user:
+            flash('Access unauthorized', 'danger')
+            return redirect(url)

@@ -1,3 +1,4 @@
+from flask import flash
 from flask_sqlalchemy import SQLAlchemy
 from db import db
 
@@ -30,3 +31,14 @@ class Favorites(db.Model):
         db.Integer,
         nullable = False
     )
+
+    @classmethod
+    def is_valid_rating(cls, rating):
+        return rating >= 0 and rating <= 100
+
+    def update_fav(self, rating):
+        self.movie_rating = rating
+        db.session.add(self)
+        db.session.commit()
+
+        flash('Updated movie rating!', 'success')
