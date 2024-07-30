@@ -15,15 +15,18 @@ Such as:
 
 ## Running Code Locally
 
+ 1. Python version 3.10.12 was used for the project
+ 1. Get api key from [watchmode](https://api.watchmode.com/)
  1. Clone the repository 
  2. Set up a database with postgres
  2. Go to the root directory
- 2. Get api key from [watchmode](https://api.watchmode.com/)
- 3. Add a ```my_secrets``` file in the root directory with ```MY_API_KEY, DB_URI, SECRET_KEY``` variables in it. Database uri should be like this ```'postgresql:///your_db_name_here'```.
+ 3. Add a ```.env``` file in the root directory with ```MY_API_KEY, DB_URI, SECRET_KEY``` variables in it. Database uri should look like this ```'postgresql:///your_db_name_here'```
  3. Run ```python3 -m venv venv``` to set up virtual enviorment
  4. Run ```source venv/bin/activate``` to start virtual enviorment
  5. Install requirements ```pip3 install -r requirements.txt```
  6. Start server ```flask run```
+ 7. Stop server ``` Ctrl c```
+ 8. Leave virtual enviorment ``` deactivate ``` 
 
-API used for all movie data [watchmode](https://api.watchmode.com/)
+API used for all movie data [watchmode](https://api.watchmode.com/) \
 Tech stack used to create the site: Python, Flask, SQL, Sqlalchemy, HTML, CSS
