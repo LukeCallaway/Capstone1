@@ -62,11 +62,11 @@ class Api_calls():
         return False
 
     @classmethod
-    def get_similar_titles(cls, list):
+    def get_similar_titles(cls, lst):
         """Grabs all movies on a given list of ids"""
         sim_titles_info = {}
         i = 0
-        for movie_id in list:
+        for movie_id in lst:
             m = cls.get_all_info(movie_id)
             # make a dict with movieidx as key and movie info as values
             sim_titles_info[f'movie{i}'] = [m['id'], m['title'], m['year'], m['poster']]
@@ -94,9 +94,7 @@ class Api_calls():
         Grab 3 similar titles from movies in favorites
         or 3 random titles from a genre
         """
-        favorites = (Favorites.query.filter(Favorites.user_id == user_id)
-                                .order_by(Favorites.movie_rating.desc())
-                                .all())
+        favorites = Favorites.get_all_favs(user_id)
 
         if len(favorites) > 2:
             
