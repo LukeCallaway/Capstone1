@@ -36,9 +36,19 @@ class Favorites(db.Model):
     def is_valid_rating(cls, rating):
         return rating >= 0 and rating <= 100
 
+    @classmethod
+    def get_all_favs(cls, id):
+        return (Favorites.query.filter(Favorites.user_id == id)
+                                .order_by(Favorites.movie_rating.desc())
+                                .all())                           
+
+
     def update_fav(self, rating):
         self.movie_rating = rating
         db.session.add(self)
         db.session.commit()
 
         flash('Updated movie rating!', 'success')
+
+    def get_fav(self, user_id, movie_id):
+        return (Favorites.query.filter(Favorites.user_id == user_id, Favorites.movie_id == movie_id).first())

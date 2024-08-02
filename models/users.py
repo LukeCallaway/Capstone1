@@ -89,6 +89,10 @@ class User(db.Model):
         'Favorites'
     )
 
+    watch_laters = db.relationship(
+        'Watch_Later'
+    )
+
     def check_password(self, password):
         if bcrypt.check_password_hash(self.password, password):
             return True
@@ -106,7 +110,7 @@ class User(db.Model):
         found_user_list = [user for user in self.following if user == other_user]
         return len(found_user_list) == 1
 
-    def update(self, username, email, first_name, last_name):
+    def update(self, username, email, first_name = '', last_name = ''):
         """Update user info based on params"""
         self.username = username
         self.email = email
@@ -115,9 +119,6 @@ class User(db.Model):
 
         db.session.add(self)
         db.session.commit()
-
-        flash('Info successfully updated!', 'success')
-
 
     def add_follow(self, to_follow_id):
         """add new follower to user"""
@@ -136,8 +137,6 @@ class User(db.Model):
         db.session.delete(self)
         db.session.commit()
 
-        flash('Account deleted successfully', 'success')
-
     def add_fav(self, id, title, rating):
 
         new_fav = Favorites(user_id = self.id, movie_id = id, movie_name = title, movie_rating = rating)
@@ -153,8 +152,6 @@ class User(db.Model):
         
         db.session.add(new_watch_later)
         db.session.commit()
-
-        flash('Added to Watch Later List!', 'success')
 
     def check_user(self, user, url):
         if self != user:

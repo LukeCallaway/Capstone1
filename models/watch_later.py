@@ -25,3 +25,9 @@ class Watch_Later(db.Model):
         db.Text,
         nullable = False
     )
+
+    @classmethod
+    def get_all_watch_laters(cls, id):
+        return (Watch_Later.query.filter(Watch_Later.user_id == id)
+                                 .order_by(Watch_Later.movie_name)
+                                 .all())
