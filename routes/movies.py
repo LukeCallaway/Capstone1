@@ -13,7 +13,7 @@ movies = Blueprint('movies', __name__, static_folder='static', template_folder='
 def movie_info(id):
     """Get all info for a single movie based on passed in id"""
     movie = Api_calls.get_all_info(id)
-    fav = (Favorites.query.filter(Favorites.user_id == g.user.id, Favorites.movie_id == movie['id']).first())
+    fav = Favorites.get_fav(g.user.id, movie['id'])
 
     form = AddToFav(obj=fav) # pre populate form with db movie rating if fav exists
 
@@ -49,5 +49,6 @@ def add_to_watch_later(id):
         return redirect(f'/movies/{id}')
     
     g.user.add_watch_later(id, movie['title'])
+    flash('Added to Watch Later List!', 'success')
 
     return redirect(f'/movies/{id}')

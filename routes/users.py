@@ -44,7 +44,6 @@ def edit_user(user_id):
     """Display edit user form"""
 
     form = EditUserForm(obj = g.user)
-
     user = User.query.get_or_404(user_id)
 
     user.check_user(g.user, f'/users/{g.user.id}')
@@ -52,10 +51,11 @@ def edit_user(user_id):
     if form.validate_on_submit():
         if g.user.check_password(form.password.data):
             g.user.update(form.username.data,
-                        form.email.data, 
-                        form.first_name.data, 
-                        form.last_name.data)
+                          form.email.data,
+                          form.first_name.data, 
+                          form.last_name.data)
 
+            flash('Info successfully updated!', 'success')
             return redirect(f'/users/{g.user.id}')
 
         flash('Incorrect Password', 'danger')
@@ -64,7 +64,7 @@ def edit_user(user_id):
     return render_template('/users/edit.html', form = form, user = g.user)
 
 @users.route('/<int:user_id>/delete', methods=['POST'])
-def del_user(user_id):
+def delete_user(user_id):
     """Deletes User"""
 
     user = User.query.get_or_404(user_id)
@@ -72,7 +72,8 @@ def del_user(user_id):
     user.check_user(g.user, f'/users/{g.user.id}')
 
     user.delete_user()
-
+    flash('Account deleted successfully', 'success')
+    
     return redirect('/register')
 
 
@@ -113,26 +114,23 @@ def stop_following(follow_id):
 
 @users.route('/<int:user_id>/favorites')
 def user_favorites(user_id):
+    """Displays all of a user's favorites"""
 
     user = User.query.get_or_404(user_id)
 
     user.check_user(g.user, f'/users/{g.user.id}')
 
-    favorites = (Favorites.query.filter(Favorites.user_id == user_id)
-                                .order_by(Favorites.movie_rating.desc())
-                                .all())                           
-
+    favorites = Favorites.get_all_favs(user_id)
     return render_template('users/favorites.html', user = user, favorites = favorites, list_length = len(favorites))
 
 @users.route('/<int:user_id>/watch_later')
 def user_watch_later(user_id):
+    """Displays all of a user's watch later movies"""
 
     user = User.query.get_or_404(user_id)
 
     user.check_user(g.user, f'/users/{g.user.id}')
 
-    watch_later = (Watch_Later.query.filter(Watch_Later.user_id == user_id)
-                                .order_by(Watch_Later.movie_name)
-                                .all())
+    watch_later = Watch_Later.get_all_watch_laters(user_id)
 
     return render_template('users/watch-later.html', user = user, watch_later = watch_later, list_length = len(watch_later))

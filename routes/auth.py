@@ -77,4 +77,4 @@ def logout():
     """Handle logging out a user"""
 
     do_logout()
-    return redirect('/')
+    return redirect('/register')
