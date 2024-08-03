@@ -22,9 +22,9 @@ app = Flask(__name__)
 
 secrets = dotenv_values('.env')
 
-# app.config['SQLALCHEMY_DATABASE_URI'] = (
-#     os.environ.get('DATABASE_URL') or secrets['DB_URI'])
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///capstone1_test'
+app.config['SQLALCHEMY_DATABASE_URI'] = (
+    os.environ.get('DATABASE_URL') or secrets['DB_URI'])
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///capstone1_test'
 
 app.config['SECRET_KEY'] = (
     os.environ.get('SECRET_KEY') or secrets['SECRET_KEY'])

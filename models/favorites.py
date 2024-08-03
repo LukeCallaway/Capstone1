@@ -40,8 +40,11 @@ class Favorites(db.Model):
     def get_all_favs(cls, id):
         return (Favorites.query.filter(Favorites.user_id == id)
                                 .order_by(Favorites.movie_rating.desc())
-                                .all())                           
+                                .all())   
 
+    @classmethod
+    def get_fav(cls, user_id, movie_id):
+        return (Favorites.query.filter(Favorites.user_id == user_id, Favorites.movie_id == movie_id).first())
 
     def update_fav(self, rating):
         self.movie_rating = rating
@@ -49,6 +52,3 @@ class Favorites(db.Model):
         db.session.commit()
 
         flash('Updated movie rating!', 'success')
-
-    def get_fav(self, user_id, movie_id):
-        return (Favorites.query.filter(Favorites.user_id == user_id, Favorites.movie_id == movie_id).first())

@@ -94,21 +94,21 @@ class UserViewTestCase(TestCase):
             with self.client.session_transaction() as sess:
 
                 # bad data sent, rating needs to be <= 100
-                res = self.client.post("/movies/1532981", data={'movie_rating': 110}, follow_redirects = True)
+                res = self.client.post("/movies/1532981", data={'movie_id': 100, 'movie_rating': 110}, follow_redirects = True)
                 html = res.get_data(as_text = True)
 
                 self.assertEqual(res.status_code, 200)
                 self.assertIn('Movie rating must be between 0 and 100!', html) 
 
                 # bad data sent, rating needs to be >= 0
-                res = self.client.post("/movies/1532981", data={'movie_rating': -1}, follow_redirects = True)
+                res = self.client.post("/movies/1532981", data={'movie_id': 100, 'movie_rating': -1}, follow_redirects = True)
                 html = res.get_data(as_text = True)
 
                 self.assertEqual(res.status_code, 200)
                 self.assertIn('Movie rating must be between 0 and 100!', html) 
 
                 # good data sent, adds to favorites
-                res = self.client.post("/movies/1532981", data={'movie_rating': 100}, follow_redirects = True)
+                res = self.client.post("/movies/1532981", data={'movie_id': 100, 'movie_rating': 100}, follow_redirects = True)
                 html = res.get_data(as_text = True)
 
                 self.assertEqual(res.status_code, 200)
