@@ -25,7 +25,7 @@ Such as:
  4. Run ```source venv/bin/activate``` to start virtual enviorment
  5. Install requirements ```pip3 install -r requirements.txt```
  4. Run all tests with ```python -m unittest```
- 4. Run one file's tests with ```python -m unittest file_name_here```
+ 4. Run one file's tests with ```python -m unittest test_file_name_here```
  6. Start server ```flask run```
  7. Stop server ``` Ctrl c```
  8. Leave virtual enviorment ``` deactivate ``` 
